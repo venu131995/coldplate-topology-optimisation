@@ -1,0 +1,258 @@
+{
+  "model": {
+    "nx": 120,
+    "ny": 60,
+    "kappa_min": 0.0001,
+    "q_kappa": 8.0,
+    "k_solid": 1.0,
+    "k_fluid": 0.01,
+    "q_k": 8.0,
+    "C": 300.0,
+    "p_in": 1.0,
+    "q_total": 1.0,
+    "hotspot": [
+      0.55,
+      0.35,
+      0.15,
+      0.3,
+      4.0
+    ],
+    "pnorm": 8.0
+  },
+  "volume_fraction": 0.35,
+  "filter_radius_cells": 2.5,
+  "adjoint_vs_finite_difference_max_rel_error": 1.9186717651764098e-09,
+  "main_hotspot_4x": {
+    "T_max": 0.05726,
+    "T_mean": 0.034,
+    "flow_rate": 0.13466,
+    "fluid_fraction": 0.3496,
+    "energy_imbalance": 4.9960036108132044e-15,
+    "best_straight_same_min_feature": {
+      "channels": 7,
+      "T_max": 0.06368
+    },
+    "reduction_vs_same_min_feature_pct": 10.1,
+    "best_straight_any_width": {
+      "channels": 12,
+      "T_max": 0.04623,
+      "channel_width_cells": 1.75
+    },
+    "min_feature_check": {
+      "fluid_cells_lost_pct": 5.92,
+      "solid_cells_lost_pct": 0.96
+    },
+    "runtime_s": 72.5
+  },
+  "straight_channels_main": [
+    {
+      "channels": 3,
+      "channel_width_cells": 7.0,
+      "fin_width_cells": 13.0,
+      "meets_min_feature": true,
+      "T_max": 0.12184,
+      "T_mean": 0.04745,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 4,
+      "channel_width_cells": 5.25,
+      "fin_width_cells": 9.75,
+      "meets_min_feature": true,
+      "T_max": 0.09736,
+      "T_mean": 0.03653,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 5,
+      "channel_width_cells": 4.2,
+      "fin_width_cells": 7.8,
+      "meets_min_feature": true,
+      "T_max": 0.08071,
+      "T_mean": 0.03061,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 6,
+      "channel_width_cells": 3.5,
+      "fin_width_cells": 6.5,
+      "meets_min_feature": true,
+      "T_max": 0.07231,
+      "T_mean": 0.02589,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 7,
+      "channel_width_cells": 3.0,
+      "fin_width_cells": 5.57,
+      "meets_min_feature": true,
+      "T_max": 0.06368,
+      "T_mean": 0.02328,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 8,
+      "channel_width_cells": 2.62,
+      "fin_width_cells": 4.88,
+      "meets_min_feature": false,
+      "T_max": 0.05487,
+      "T_mean": 0.02101,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 9,
+      "channel_width_cells": 2.33,
+      "fin_width_cells": 4.33,
+      "meets_min_feature": false,
+      "T_max": 0.05599,
+      "T_mean": 0.01974,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 10,
+      "channel_width_cells": 2.1,
+      "fin_width_cells": 3.9,
+      "meets_min_feature": false,
+      "T_max": 0.04678,
+      "T_mean": 0.0184,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 11,
+      "channel_width_cells": 1.91,
+      "fin_width_cells": 3.55,
+      "meets_min_feature": false,
+      "T_max": 0.0465,
+      "T_mean": 0.01754,
+      "flow_rate": 0.17503
+    },
+    {
+      "channels": 12,
+      "channel_width_cells": 1.75,
+      "fin_width_cells": 3.25,
+      "meets_min_feature": false,
+      "T_max": 0.04623,
+      "T_mean": 0.0172,
+      "flow_rate": 0.17503
+    }
+  ],
+  "hotspot_8x": {
+    "T_max": 0.0503,
+    "T_mean": 0.03128,
+    "flow_rate": 0.1377,
+    "fluid_fraction": 0.3494,
+    "energy_imbalance": 4.107825191113079e-15,
+    "best_straight_same_min_feature": {
+      "channels": 6,
+      "T_max": 0.0967
+    },
+    "reduction_vs_same_min_feature_pct": 48.0,
+    "best_straight_any_width": {
+      "channels": 12,
+      "T_max": 0.07116,
+      "channel_width_cells": 1.75
+    },
+    "min_feature_check": {
+      "fluid_cells_lost_pct": 5.25,
+      "solid_cells_lost_pct": 1.58
+    }
+  },
+  "fluid_fraction_sweep": [
+    {
+      "vol": 0.25,
+      "T_max": 0.09232,
+      "T_mean": 0.0589,
+      "flow_rate": 0.09541,
+      "fluid_fraction": 0.2507,
+      "energy_imbalance": 1.7763568394002505e-15,
+      "best_straight_same_min_feature": {
+        "channels": 5,
+        "T_max": 0.08934
+      },
+      "reduction_vs_same_min_feature_pct": -3.3,
+      "best_straight_any_width": {
+        "channels": 9,
+        "T_max": 0.056,
+        "channel_width_cells": 1.67
+      },
+      "min_feature_check": {
+        "fluid_cells_lost_pct": 3.1,
+        "solid_cells_lost_pct": 0.33
+      }
+    },
+    {
+      "vol": 0.35,
+      "T_max": 0.05726,
+      "T_mean": 0.034,
+      "flow_rate": 0.13466,
+      "fluid_fraction": 0.3496,
+      "energy_imbalance": 4.9960036108132044e-15,
+      "best_straight_same_min_feature": {
+        "channels": 7,
+        "T_max": 0.06368
+      },
+      "reduction_vs_same_min_feature_pct": 10.1,
+      "best_straight_any_width": {
+        "channels": 12,
+        "T_max": 0.04623,
+        "channel_width_cells": 1.75
+      },
+      "min_feature_check": {
+        "fluid_cells_lost_pct": 5.92,
+        "solid_cells_lost_pct": 0.96
+      }
+    },
+    {
+      "vol": 0.45,
+      "T_max": 0.04178,
+      "T_mean": 0.02166,
+      "flow_rate": 0.18119,
+      "fluid_fraction": 0.4494,
+      "energy_imbalance": 4.440892098500626e-15,
+      "best_straight_same_min_feature": {
+        "channels": 9,
+        "T_max": 0.04578
+      },
+      "reduction_vs_same_min_feature_pct": 8.7,
+      "best_straight_any_width": {
+        "channels": 10,
+        "T_max": 0.03649,
+        "channel_width_cells": 2.7
+      },
+      "min_feature_check": {
+        "fluid_cells_lost_pct": 5.75,
+        "solid_cells_lost_pct": 1.64
+      }
+    }
+  ],
+  "mesh_refinement_180x90": {
+    "T_max": 0.04734,
+    "T_mean": 0.02781,
+    "flow_rate": 0.13972,
+    "fluid_fraction": 0.3473,
+    "energy_imbalance": 5.662137425588298e-15,
+    "best_straight_same_min_feature": {
+      "channels": 7,
+      "T_max": 0.05621,
+      "channel_width_cells": 4.43,
+      "note": "conservative: N=7 channels are 4.43 cells, just under the 4.5-cell limit; strictly feasible best is N=6 (T_max 0.06131)"
+    },
+    "reduction_vs_same_min_feature_pct": 15.8,
+    "best_straight_any_width": {
+      "channels": 12,
+      "T_max": 0.03617,
+      "channel_width_cells": 2.58
+    },
+    "min_feature_check": {
+      "fluid_cells_lost_pct": 0.02,
+      "solid_cells_lost_pct": 0.26
+    },
+    "runtime_s": 197.2,
+    "note": "Min feature scaled with the filter radius (3 cells x 1.5 = 4.5 cells); the original run used 3 cells by mistake.",
+    "straight_N7_coarse_vs_fine_T_max": [
+      0.06368,
+      0.05621
+    ]
+  },
+  "runtime_total_s": 508.3
+}
