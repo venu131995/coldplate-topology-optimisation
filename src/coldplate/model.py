@@ -207,3 +207,41 @@ def energy_balance(s: State, g: Grid, P: Params) -> dict:
     adv_out = float(P.C * (np.maximum(s.F_out, 0) * s.T[g.outlet]).sum() + P.C * (np.maximum(-s.F_in, 0) * s.T[g.inlet]).sum())
     return {"heat_in": q_in, "advected_out": adv_out, "imbalance": q_in - adv_out,
             "flow_rate": float(s.F_in.sum()), "mixed_outlet_T": q_in / (P.C * float(s.F_out.sum()))}
+
+
+def conservation(s: State, g: Grid, P: Params) -> dict:
+    """Global and local (per-cell) mass, momentum and energy balances of a solved state.
+
+    Mass:      every cell's net face flux (incl. inlet/outlet faces) must vanish; inflow = outflow.
+    Momentum:  for Darcy flow the momentum equation is u = -kappa grad p; its global form is the power
+               balance  p_in * Q = sum over faces of F^2 / transmissibility  (pressure work = dissipation).
+    Energy:    every cell's advected + conducted heat balance must close; chip heat = heat carried out.
+    """
+    n, a, b = g.n, g.a, g.b
+    net = np.zeros(n)
+    np.add.at(net, a, s.F); np.add.at(net, b, -s.F)
+    net[g.inlet] -= s.F_in; net[g.outlet] += s.F_out
+    q_in = float(s.F_in.sum())
+    tf = harmonic(s.kap[a], s.kap[b])
+    dissip = float(np.sum(s.F**2 / tf) + np.sum(s.F_in**2 / (2 * s.kap[g.inlet]))
+                   + np.sum(s.F_out**2 / (2 * s.kap[g.outlet])))
+    power = P.p_in * q_in
+    # local heat balance per cell: conduction + upwind advection - source
+    k = s.k
+    gf = harmonic(k[a], k[b])
+    T = s.T
+    cond = gf * (T[a] - T[b])
+    adv = P.C * np.where(s.F > 0, s.F * T[a], s.F * T[b])
+    heat = np.zeros(n)
+    np.add.at(heat, a, cond + adv); np.add.at(heat, b, -(cond + adv))
+    heat[g.outlet] += P.C * np.maximum(s.F_out, 0) * T[g.outlet]
+    heat[g.inlet] += P.C * np.maximum(-s.F_in, 0) * T[g.inlet]
+    heat -= P.heat_source()
+    eb = energy_balance(s, g, P)
+    return {"mass": {"inflow": q_in, "outflow": float(s.F_out.sum()),
+                     "global_imbalance_rel": (q_in - float(s.F_out.sum())) / q_in,
+                     "max_cell_imbalance_rel": float(np.abs(net).max()) / q_in},
+            "momentum_power": {"pumping_power": power, "dissipation": dissip, "closure_rel": (dissip - power) / power},
+            "energy": {"heat_in": eb["heat_in"], "advected_out": eb["advected_out"],
+                       "global_imbalance_rel": eb["imbalance"] / eb["heat_in"],
+                       "max_cell_imbalance_rel": float(np.abs(heat).max()) / (eb["heat_in"] / n)}}

@@ -80,3 +80,15 @@ def test_mma_solves_constrained_convex_problem():
         xs = np.clip(t - lam / (2 * c * n), 0, 1)
         lo, hi = (lam, hi) if xs.mean() > b else (lo, lam)
     assert np.allclose(x, xs, atol=2e-3)
+
+
+def test_local_and_global_conservation_mass_momentum_energy():
+    from coldplate import conservation
+    P = Params(nx=30, ny=16)
+    g = Grid(P.nx, P.ny)
+    for seed in (0, 1):
+        rho = np.random.default_rng(seed).uniform(0, 1, g.n)
+        c = conservation(solve(rho, g, P), g, P)
+        assert abs(c["mass"]["global_imbalance_rel"]) < 1e-10 and c["mass"]["max_cell_imbalance_rel"] < 1e-10
+        assert abs(c["momentum_power"]["closure_rel"]) < 1e-10      # pressure work = Darcy dissipation
+        assert abs(c["energy"]["global_imbalance_rel"]) < 1e-10 and c["energy"]["max_cell_imbalance_rel"] < 1e-9

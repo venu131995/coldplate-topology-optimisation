@@ -82,6 +82,24 @@ means channels and fins are at least 3 cells wide, the same manufacturing limit 
 | Channel width (cells) | 7.0 | 5.25 | 4.2 | 3.5 | **3.0** | 2.6 | 2.1 | 1.75 |
 | T_max | 0.122 | 0.097 | 0.081 | 0.072 | **0.064** | 0.055 | 0.047 | 0.046 |
 
+## Conservation and confidence
+
+`conservation()` in `model.py` checks every solved state independently of the solver
+(`results/conservation.json`, optimised design):
+
+| Law | Global check | Result | Local (per-cell) check | Result |
+|---|---|---|---|---|
+| Mass | inflow = outflow | 4 × 10⁻¹³ | net face flux of every cell = 0 | 2 × 10⁻¹⁴ of throughflow |
+| Momentum (Darcy) | pressure work p_in·Q = dissipation Σ F²/T_f | 2 × 10⁻¹³ | Darcy law per face (built into the fluxes) | exact |
+| Energy | chip heat = heat advected out | 5 × 10⁻¹⁵ | advection + conduction − source per cell | 1 × 10⁻¹² of mean cell heat |
+
+The same holds for random grey designs, and a unit test enforces it. Confidence rests on four independent pieces of
+evidence:
+- exact discrete conservation;
+- adjoint gradients matching finite differences to 10⁻⁹;
+- topology that is stable under mesh refinement;
+- physically consistent trends (more channels cool better, T_max is never below the mixed-outlet temperature).
+
 ## Limitations (read before quoting the numbers)
 
 - **The Darcy model has no in-plane wall friction.** Narrow channels are therefore not penalised in pressure
@@ -109,18 +127,19 @@ means channels and fins are at least 3 cells wide, the same manufacturing limit 
 | `src/coldplate/optim.py` | MMA, density filter, Heaviside projection |
 | `src/coldplate/topopt.py` | Robust optimisation loop, blueprint extraction, baselines |
 
-**Tests (`tests/`, 6 passing):**
+**Tests (`tests/`, 7 passing):**
 - adjoint matches finite differences;
 - energy and mass conservation, and the discrete maximum principle;
 - more channels cool better, and T_max is at least the mixed-outlet temperature;
 - the filter normalises correctly and the projection derivative is right;
-- MMA reproduces the analytic KKT solution of a constrained quadratic programme.
+- MMA reproduces the analytic KKT solution of a constrained quadratic programme;
+- mass, momentum (power) and energy balance globally and in every cell.
 
 ## Run
 
 ```bash
 pip install -r requirements.txt imageio-ffmpeg
-python -m pytest -q tests          # 6 tests, ~3 s
+python -m pytest -q tests          # 7 tests, ~8 s
 python scripts/run_topopt.py       # full study, ~8.5 min
 python scripts/make_animation.py   # movie, ~3 min
 ```
