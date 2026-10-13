@@ -176,13 +176,15 @@ def main() -> None:
     show(axs[1], fine["blueprint"], Pf, f"180 x 90 (filter r = {RADIUS * 1.5}): T_max {fine['eval']['T_max']:.4f}", "Blues")
     fig.tight_layout(); fig.savefig(FIG / "fig6_mesh_refinement.png"); plt.close(fig)
 
-    fig, axs = plt.subplots(1, 2, figsize=(9, 2.6))
-    show(axs[0], hot["blueprint"], P8, f"8x hotspot design: T_max {hot['eval']['T_max']:.4f}", "Blues")
-    show(axs[1], hot["eval"]["state"].T, P8, "Temperature", "inferno")
-    hm8 = P8.heat_source().reshape(P8.ny, P8.nx) > P8.heat_source().min() * 1.5
-    for ax in axs:
-        ax.contour(hm8, levels=[0.5], colors="tab:red", linewidths=0.8, linestyles="--")
-    fig.tight_layout(); fig.savefig(FIG / "fig7_hotspot_8x.png"); plt.close(fig)
+    nb = hot["summary"]["best_straight_same_min_feature"]["channels"]
+    s8 = straight_channels(P8, nb, hot["blueprint"].mean())
+    e8 = evaluate(s8, P8)
+    np.savez_compressed(RES / "hotspot_8x_fields.npz", o_rho=hot["blueprint"], o_T=hot["eval"]["state"].T,
+                        o_Tmax=hot["eval"]["T_max"], s_rho=s8, s_T=e8["state"].T, s_Tmax=e8["T_max"], n_ch=nb,
+                        q=P8.heat_source(), nx=P8.nx, ny=P8.ny)
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import plot_hotspot
+    plot_hotspot.main()
 
     print(json.dumps({k: v for k, v in out.items() if k not in ("straight_channels_main", "model")}, indent=1, default=str))
 

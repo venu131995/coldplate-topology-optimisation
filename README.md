@@ -122,7 +122,7 @@ evidence:
 | `fig3_adjoint_check.png` | Adjoint vs. finite-difference gradients |
 | `fig4/5` | Designs and hotspot temperature vs. coolant fraction |
 | `fig6_mesh_refinement.png` | Same topology at 120 × 60 and 180 × 90 |
-| `fig7_hotspot_8x.png` | 8× hotspot design and temperature |
+| `fig7_hotspot_8x.png` | 8× hotspot: best straight channels vs. optimised design, with temperatures (`scripts/plot_hotspot.py`) |
 | `src/coldplate/model.py` | Finite-volume model, discrete adjoint, energy balance |
 | `src/coldplate/optim.py` | MMA, density filter, Heaviside projection |
 | `src/coldplate/topopt.py` | Robust optimisation loop, blueprint extraction, baselines |
